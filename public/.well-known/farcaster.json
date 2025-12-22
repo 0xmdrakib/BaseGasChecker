@@ -1,0 +1,32 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base Gas Checker",
+    "homeUrl": "https:// ",
+    "iconUrl": "https:// /icon.png",
+    "splashImageUrl": "https:// /splash.png",
+    "splashBackgroundColor": "#ff0000",
+    "subtitle": "Live Base L2 gas gauge",
+    "description": "Check Base gas price instantly with a gauge and tiny history trail.",
+    "primaryCategory": "utility",
+    "tags": [
+      "base",
+      "gas",
+      "utility"
+    ],
+    "heroImageUrl": "https:// /hero.png",
+    "tagline": "Check Base gas instantly",
+    "ogTitle": "Base Gas Checker",
+    "ogDescription": "Instant Base gas price.",
+    "ogImageUrl": "https:// /hero.png",
+    "noindex": true,
+    "screenshotUrls": [
+      "https:// /hero.png"
+    ]
+  }
+}
