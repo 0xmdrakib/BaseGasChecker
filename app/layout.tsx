@@ -3,7 +3,7 @@ import "./globals.css";
 
 // IMPORTANT: APP_URL must be a valid absolute https URL in production.
 // We keep a safe fallback so Vercel builds never fail even if you forget to edit it.
-const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+const APP_URL = "";
 const BASE_APP_ID = "6946d047d19763ca26ddc710";
 
 const embedMiniapp = {
