@@ -63,17 +63,6 @@ function sparkPoints(samples: number[], w = 520, h = 92, pad = 10) {
 }
 
 export default function Page() {
-  // Tell the Base/Farcaster client we are ready ASAP (hides splash).
-  useEffect(() => {
-    (async () => {
-      try {
-        await sdk.actions.ready();
-      } catch {
-        // noop (web preview / unsupported client)
-      }
-    })();
-  }, []);
-
   const [gas, setGas] = useState<GasRes | null>(null);
   const [samples, setSamples] = useState<number[]>([]);
   const [err, setErr] = useState<string | null>(null);
@@ -117,8 +106,7 @@ export default function Page() {
       const j = (await r.json()) as GasRes;
       const g = Number(j.gasPriceGwei);
       setGas(j);
-      
-setSamples((prev) => {
+      setSamples((prev) => {
         const next = [...prev, g].filter((x) => Number.isFinite(x));
         return next.slice(-30);
       });
@@ -139,7 +127,12 @@ setSamples((prev) => {
     if (!refreshMs) return;
     if (timerRef.current) window.clearInterval(timerRef.current);
     timerRef.current = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => {
+  useEffect(() => {
+    // Hide splash screen early (Base/Farcaster webviews)
+    void sdk.actions.ready();
+  }, []);
+
+  return() => {
       if (timerRef.current) window.clearInterval(timerRef.current);
       timerRef.current = null;
     };
