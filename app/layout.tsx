@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const APP_URL = "https://base-gas-checker.vercel.app";
-const BASE_APP_ID = "6946d047d19763ca26ddc710"; // from Base Build modal
+const APP_URL = "";
+const BASE_APP_ID = "6946d047d19763ca26ddc710";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
