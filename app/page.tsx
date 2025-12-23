@@ -77,8 +77,9 @@ useEffect(() => {
 
   const [refreshMs, setRefreshMs] = useState<number>(10_000);
   const [now, setNow] = useState<number>(() => Date.now());
+  const [lastClientFetchAt, setLastClientFetchAt] = useState<number | null>(null);
 
-  const lastFetchedAt = gas?.fetchedAt ?? null;
+  const lastFetchedAt = lastClientFetchAt ?? gas?.fetchedAt ?? null;
   const cur = useMemo(() => (gas ? Number(gas.gasPriceGwei) : NaN), [gas]);
   const mood = useMemo(() => moodOf(cur), [cur]);
 
@@ -96,10 +97,11 @@ useEffect(() => {
   }, [cur, minMax]);
 
   const nextIn = useMemo(() => {
-    if (!refreshMs || !lastFetchedAt) return null;
-    const left = refreshMs - (now - lastFetchedAt);
+    const basis = lastClientFetchAt ?? lastFetchedAt;
+    if (!refreshMs || !basis) return null;
+    const left = refreshMs - (now - basis);
     return Math.max(0, Math.ceil(left / 1000));
-  }, [refreshMs, lastFetchedAt, now]);
+  }, [refreshMs, lastClientFetchAt, lastFetchedAt, now]);
 
   const timerRef = useRef<number | null>(null);
   const refreshRef = useRef<number | null>(null);
@@ -113,6 +115,7 @@ useEffect(() => {
       const j = (await r.json()) as GasRes;
       const g = Number(j.gasPriceGwei);
       setGas(j);
+      setLastClientFetchAt(Date.now());
       setSamples((prev) => {
         const next = [...prev, g].filter((x) => Number.isFinite(x));
         return next.slice(-30);
@@ -162,7 +165,7 @@ useEffect(() => {
       `Base Gas Checker\n` +
       `Gas: ${fmtGwei(cur)} gwei\n` +
       (Number.isFinite(minMax.min) ? `Min/Max (30): ${fmtGwei(minMax.min)} / ${fmtGwei(minMax.max)}\n` : "") +
-      (gas?.fetchedAt ? `Updated: ${timeHHMMSS(gas.fetchedAt)}\n` : "");
+      (gas?.fetchedAt ? `Updated: ${timeHHMMSS((lastClientFetchAt ?? gas.fetchedAt) as number)}\n` : "");
 
     try {
       await navigator.clipboard.writeText(text);
@@ -266,7 +269,7 @@ useEffect(() => {
                 <div className="ringInner">
                   <div className="big">{fmtGwei(cur)}</div>
                   <div className="unit">gwei</div>
-                  <div className="time">{gas?.fetchedAt ? `Updated ${timeHHMMSS(gas.fetchedAt)}` : "—"}</div>
+                  <div className="time">{gas?.fetchedAt ? `Updated ${timeHHMMSS((lastClientFetchAt ?? gas.fetchedAt) as number)}` : "—"}</div>
                 </div>
               </div>
             </div>
