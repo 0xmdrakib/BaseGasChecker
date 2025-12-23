@@ -1,0 +1,29 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "Base Gas Checker",
+    "homeUrl": "https://basegaschecker.vercel.app",
+    "iconUrl": "https://basegaschecker.vercel.app/icon.png",
+    "splashImageUrl": "https://basegaschecker.vercel.app/splash.png",
+    "splashBackgroundColor": "#ff0000",
+    "subtitle": "Live Base L2 gas gauge",
+    "description": "Check Base gas price instantly with a gauge and tiny history trail.",
+    "primaryCategory": "utility",
+    "tags": [
+      "base",
+      "gas",
+      "utility"
+    ],
+    "heroImageUrl": "https://basegaschecker.vercel.app/hero.png",
+    "tagline": "Check Base gas instantly",
+    "ogTitle": "Base Gas Checker",
+    "ogDescription": "Instant Base gas price.",
+    "ogImageUrl": "https://basegaschecker.vercel.app/hero.png",
+    "noindex": true
+  }
+}
