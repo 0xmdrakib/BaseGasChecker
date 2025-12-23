@@ -3,7 +3,8 @@ import "./globals.css";
 
 // NOTE: Keep this a valid absolute URL so embeds work in production.
 // You can set NEXT_PUBLIC_APP_URL in Vercel. Trailing slash is removed.
-const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
+const RAW_APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim();
+const APP_URL = (RAW_APP_URL && /^https?:\/\//.test(RAW_APP_URL) ? RAW_APP_URL : "https://basegaschecker.vercel.app").replace(/\/$/, "");
 const BASE_APP_ID = "6946d047d19763ca26ddc710"; // from Base Build modal
 
 const miniappEmbed = {
@@ -29,18 +30,6 @@ export const metadata: Metadata = {
 
     // Back-compat (some clients still read fc:frame)
     "fc:frame": JSON.stringify(miniappEmbed),
-  },
-  openGraph: {
-    title: "Base Gas Checker",
-    description: "Check Base gas price instantly with a gauge and micro-trend.",
-    url: APP_URL,
-    images: [{ url: `${APP_URL}/hero.png` }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Base Gas Checker",
-    description: "Live Base L2 gas with a quick gauge and a tiny history trail.",
-    images: [`${APP_URL}/hero.png`],
   },
 };
 
