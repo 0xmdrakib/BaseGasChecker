@@ -3,7 +3,7 @@ import "./globals.css";
 
 // NOTE: Keep this a valid absolute URL so embeds work in production.
 // You can set NEXT_PUBLIC_APP_URL in Vercel. Trailing slash is removed.
-const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "https://base-gas-checker.vercel.app").replace(/\/$/, "");
+const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "").replace(/\/$/, "");
 const BASE_APP_ID = "6946d047d19763ca26ddc710"; // from Base Build modal
 
 const miniappEmbed = {
