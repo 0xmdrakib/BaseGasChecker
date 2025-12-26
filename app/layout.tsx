@@ -1,61 +1,42 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ClientReady from "./ClientReady";
 
-const RAW_APP_URL =
-  (process.env.NEXT_PUBLIC_APP_URL || "https://qr-studio-plum.vercel.app").trim();
-const APP_URL = RAW_APP_URL.replace(/\/$/, "");
-const BASE_APP_ID =
-  (process.env.NEXT_PUBLIC_BASE_APP_ID || "6944770bd77c069a945be06e").trim();
+// NOTE: Keep this a valid absolute URL so embeds work in production.
+// You can set NEXT_PUBLIC_APP_URL in Vercel. Trailing slash is removed.
+const RAW_APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim();
+const APP_URL = (RAW_APP_URL && /^https?:\/\//.test(RAW_APP_URL) ? RAW_APP_URL : "https://basegaschecker.vercel.app").replace(/\/$/, "");
+const BASE_APP_ID = "6946d047d19763ca26ddc710"; // from Base Build modal
 
-const MINIAPP_EMBED = {
-  version: "1",
-  imageUrl: `${APP_URL}/embed.png`,
+const miniappEmbed = {
+  version: "next",
+  imageUrl: `${APP_URL}/hero.png`,
   button: {
-    title: "Open QR Studio",
+    title: "Open",
     action: {
-      type: "launch_miniapp",
-      name: "QR Studio",
+      type: "launch_frame",
       url: APP_URL,
-      splashImageUrl: `${APP_URL}/splash.png`,
-      splashBackgroundColor: "#0b0f1a"
-    }
-  }
-};
-
-// Backward compatibility for clients still reading fc:frame
-const FRAME_EMBED = {
-  ...MINIAPP_EMBED,
-  button: {
-    ...MINIAPP_EMBED.button,
-    action: {
-      ...MINIAPP_EMBED.button.action,
-      type: "launch_frame"
-    }
-  }
+    },
+  },
 };
 
 export const metadata: Metadata = {
-  title: "QR Studio",
-  description: "Generate clean QR codes for any text or URL.",
+  title: "Base Gas Checker",
+  description: "Live Base L2 gas with a quick gauge and a tiny history trail.",
   other: {
     "base:app_id": BASE_APP_ID,
-    "fc:miniapp": JSON.stringify(MINIAPP_EMBED),
-    "fc:frame": JSON.stringify(FRAME_EMBED)
-  }
+
+    // Base/Farcaster mini app embed
+    "fc:miniapp": JSON.stringify(miniappEmbed),
+
+    // Back-compat (some clients still read fc:frame)
+    "fc:frame": JSON.stringify(miniappEmbed),
+  },
 };
 
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <ClientReady />
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
