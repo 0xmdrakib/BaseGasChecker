@@ -204,7 +204,7 @@ useEffect(() => {
   const points = useMemo(() => sparkPoints(samples), [samples]);
 
   return (
-    <div className="wrap">
+    <div className={"wrap tone-" + mood.tone}>
       <div className="shell">
         <header className="head">
           <div className="titleBlock">
